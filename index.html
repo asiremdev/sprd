@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - SPRD</title>
+    <meta name="description" content="SPRD AI SAAS WEBSITE BUILDER
+">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(214.3 31.8% 91.4%)",
+                        input: "hsl(214.3 31.8% 91.4%)",
+                        ring: "hsl(222.2 84% 4.9%)",
+                        background: "hsl(0 0% 100%)",
+                        foreground: "hsl(222.2 84% 4.9%)",
+                        primary: {
+                            DEFAULT: "hsl(222.2 47.4% 11.2%)",
+                            foreground: "hsl(210 40% 98%)",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(0 84.2% 60.2%)",
+                            foreground: "hsl(210 40% 98%)",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(215.4 16.3% 46.9%)",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        card: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                    },
+                    borderRadius: {
+                        lg: "0.5rem",
+                        md: "calc(0.5rem - 2px)",
+                        sm: "calc(0.5rem - 4px)",
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #666;
+        }
+        
+        .error {
+            padding: 20px;
+            color: red;
+            background: #fee;
+            border: 1px solid red;
+            margin: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">Loading Home...</div>
+    <div id="page-root" style="display: none;"></div>
+    <div id="error-root" style="display: none;"></div>
+
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+
+    <script type="text/babel">
+        function waitForLibraries() {
+            return new Promise((resolve, reject) => {
+                let attempts = 0;
+                const maxAttempts = 30;
+                
+                const checkLibraries = () => {
+                    attempts++;
+                    if (window.React && window.ReactDOM && window.React.useState) {
+                        setTimeout(resolve, 100);
+                    } else if (attempts >= maxAttempts) {
+                        reject(new Error('Libraries failed to load within timeout'));
+                    } else {
+                        setTimeout(checkLibraries, 200);
+                    }
+                };
+                
+                setTimeout(checkLibraries, 500);
+            });
+        }
+
+        waitForLibraries().then(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('page-root').style.display = 'block';
+            
+            const { useState, useEffect, useRef } = React;
+
+            try {
+                
+        // NAVBAR COMPONENT (Latest Version)
+        const NavbarComponent = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const logoUrl = "https://uaooyubxkdahisvpkbzh.supabase.co/storage/v1/object/public/assets/1842e43c-3d55-45a2-977f-48b8dcab17fe/image/1751656834714_SPRD-logo.png";
+
+  return (
+    <nav className="relative bg-gray-900 shadow-lg text-white overflow-hidden">
+      <div className="absolute inset-0 opacity-20 animate-pulse">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-500 to-black mix-blend-multiply filter blur-3xl"></div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <a href="index.html" className="flex items-center">
+              <img src={logoUrl} alt="SPRD-logo" className="h-10 w-auto rounded-full mr-2" />
+            </a>
+          </div>
+
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="index.html" className="text-gray-300 hover:text-green-500 transition-colors duration-300">
+              Home
+            </a>
+            <a href="ai-builder.html" className="text-gray-300 hover:text-green-500 transition-colors duration-300">
+              ai-builder
+            </a>
+            <a href="web-sim.html" className="text-gray-300 hover:text-green-500 transition-colors duration-300">
+              web-sim
+            </a>
+          </div>
+
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-300 hover:text-green-500 focus:outline-none transition-colors duration-300"
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
+        </div>
+
+        {isMobileMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <a href="index.html" className="block px-3 py-2 text-gray-300 hover:text-green-500 transition-colors duration-300">
+                Home
+              </a>
+              <a href="ai-builder.html" className="block px-3 py-2 text-gray-300 hover:text-green-500 transition-colors duration-300">
+                ai-builder
+              </a>
+              <a href="web-sim.html" className="block px-3 py-2 text-gray-300 hover:text-green-500 transition-colors duration-300">
+                web-sim
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+        // HERO COMPONENT (Latest Version)
+        const HeroComponent = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <section className="relative h-screen bg-cover bg-center bg-no-repeat z-10 text-white overflow-hidden" style={{ backgroundImage: `url(https://uaooyubxkdahisvpkbzh.supabase.co/storage/v1/object/public/assets/1842e43c-3d55-45a2-977f-48b8dcab17fe/image/1751657473459_girl_thinking_gif.gif)` }}>
+      <div className="absolute inset-0 bg-black opacity-70 z-0"></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center relative z-10">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center h-full">
+          <div className="lg:w-full">
+            <h1 className="text-4xl font-extrabold sm:text-5xl lg:text-6xl leading-tight mb-4 transition-all duration-300">
+              SPRD AI: Build Smarter Websites, Instantly
+            </h1>
+            <p className="text-lg sm:text-xl mb-8 text-gray-300 transition-all duration-300">
+              Experience the future of website creation. SPRD AI SaaS website builder empowers you to bring your ideas to life effortlessly.
+            </p>
+            <div className="space-x-4">
+              <a
+                href="ai-builder.html"
+                className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+              >
+                AI Builder
+              </a>
+              <a
+                href="index.html"
+                className="inline-block bg-transparent border-2 border-green-500 hover:bg-green-500 hover:border-green-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div className="lg:w-full mt-12 lg:mt-0 hidden lg:block">
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+                
+                // Main Page Component
+                const Page = () => {
+                    return (
+                        <div className="min-h-screen">
+                            {React.createElement(NavbarComponent)}
+                            {React.createElement(HeroComponent)}
+                        </div>
+                    );
+                };
+                
+                const pageRoot = ReactDOM.createRoot(document.getElementById('page-root'));
+                pageRoot.render(React.createElement(Page));
+                
+                console.log('✅ SPRD - Home rendered successfully!');
+            } catch (error) {
+                console.error('❌ Page render error:', error);
+                document.getElementById('error-root').style.display = 'block';
+                document.getElementById('error-root').innerHTML = `
+                    <div style="padding: 20px; color: red; font-family: monospace; background: white; border: 2px solid red; margin: 10px; border-radius: 8px;">
+                        <h3>❌ Page Component Error</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <details style="margin-top: 10px;">
+                            <summary style="cursor: pointer; font-weight: bold;">📋 Show Details</summary>
+                            <pre style="background: #f5f5f5; padding: 10px; margin-top: 5px; border-radius: 4px; overflow: auto; font-size: 12px;">${error.stack || 'No stack trace available'}</pre>
+                        </details>
+                        <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            Reload Page
+                        </button>
+                    </div>
+                `;
+            }
+        }).catch((error) => {
+            console.error('❌ Failed to load libraries:', error);
+            document.getElementById('page-root').innerHTML = `
+                <div style="text-align: center; color: red; padding: 20px;">
+                    <h3>❌ Failed to Load Libraries</h3>
+                    <p>Some required libraries failed to load. This might be due to:</p>
+                    <ul style="text-align: left; display: inline-block; margin: 10px 0;">
+                        <li>Network connectivity issues</li>
+                        <li>CDN availability problems</li>
+                        <li>Browser compatibility issues</li>
+                    </ul>
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+                        Retry Loading
+                    </button>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
