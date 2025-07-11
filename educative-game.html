@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>educative-game - SPRD</title>
+    <meta name="description" content="SPRD AI SAAS WEBSITE BUILDER
+">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(214.3 31.8% 91.4%)",
+                        input: "hsl(214.3 31.8% 91.4%)",
+                        ring: "hsl(222.2 84% 4.9%)",
+                        background: "hsl(0 0% 100%)",
+                        foreground: "hsl(222.2 84% 4.9%)",
+                        primary: {
+                            DEFAULT: "hsl(222.2 47.4% 11.2%)",
+                            foreground: "hsl(210 40% 98%)",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(0 84.2% 60.2%)",
+                            foreground: "hsl(210 40% 98%)",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(215.4 16.3% 46.9%)",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(210 40% 96%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                        card: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 84% 4.9%)",
+                        },
+                    },
+                    borderRadius: {
+                        lg: "0.5rem",
+                        md: "calc(0.5rem - 2px)",
+                        sm: "calc(0.5rem - 4px)",
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #666;
+        }
+        
+        .error {
+            padding: 20px;
+            color: red;
+            background: #fee;
+            border: 1px solid red;
+            margin: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">Loading educative-game...</div>
+    <div id="page-root" style="display: none;"></div>
+    <div id="error-root" style="display: none;"></div>
+
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+
+    <script type="text/babel">
+        function waitForLibraries() {
+            return new Promise((resolve, reject) => {
+                let attempts = 0;
+                const maxAttempts = 30;
+                
+                const checkLibraries = () => {
+                    attempts++;
+                    if (window.React && window.ReactDOM && window.React.useState) {
+                        setTimeout(resolve, 100);
+                    } else if (attempts >= maxAttempts) {
+                        reject(new Error('Libraries failed to load within timeout'));
+                    } else {
+                        setTimeout(checkLibraries, 200);
+                    }
+                };
+                
+                setTimeout(checkLibraries, 500);
+            });
+        }
+
+        waitForLibraries().then(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('page-root').style.display = 'block';
+            
+            const { useState, useEffect, useRef } = React;
+
+            try {
+                
+        // PAGE COMPONENT (Latest Version)
+        const PageComponent = () => {
+  const [snake, setSnake] = useState([[0, 0]]);
+  const [food, setFood] = useState([5, 5]);
+  const [direction, setDirection] = useState('RIGHT');
+  const [gridSize, setGridSize] = useState(20);
+  const [speed, setSpeed] = useState(200);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [information, setInformation] = useState("Welcome to SPRD WebDev Snake!");
+
+  const gameContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      switch (e.key) {
+        case 'ArrowUp':
+          if (direction !== 'DOWN') setDirection('UP');
+          break;
+        case 'ArrowDown':
+          if (direction !== 'UP') setDirection('DOWN');
+          break;
+        case 'ArrowLeft':
+          if (direction !== 'RIGHT') setDirection('LEFT');
+          break;
+        case 'ArrowRight':
+          if (direction !== 'LEFT') setDirection('RIGHT');
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [direction]);
+
+  useEffect(() => {
+    const getRandomPosition = () => {
+      let newFoodPosition;
+      do {
+        newFoodPosition = [
+          Math.floor(Math.random() * gridSize),
+          Math.floor(Math.random() * gridSize),
+        ];
+      } while (snake.some(segment => segment[0] === newFoodPosition[0] && segment[1] === newFoodPosition[1]));
+      return newFoodPosition;
+    };
+
+    const webDevFacts = [
+      "HTML provides the structure of a webpage.",
+      "CSS styles the appearance of web content.",
+      "JavaScript adds interactivity to websites.",
+      "React is a popular JavaScript library for building UIs.",
+      "Responsive design makes websites adapt to different screen sizes.",
+      "Accessibility ensures websites are usable by people with disabilities.",
+      "The DOM (Document Object Model) represents the structure of an HTML document.",
+      "HTTP is the foundation of data communication on the web.",
+      "A web server delivers web content to clients.",
+      "A browser interprets and displays web content.",
+      "Always validate your HTML to ensure proper structure and functionality.",
+      "Optimize images for the web to improve page load times.",
+      "Use semantic HTML tags for better SEO and accessibility.",
+      "Keep your website code clean and well-commented for maintainability.",
+      "Test your website on different browsers and devices."
+    ];
+
+    const moveSnake = () => {
+      let head = [...snake[0]];
+      switch (direction) {
+        case 'UP':
+          head[1] -= 1;
+          break;
+        case 'DOWN':
+          head[1] += 1;
+          break;
+        case 'LEFT':
+          head[0] -= 1;
+          break;
+        case 'RIGHT':
+          head[0] += 1;
+          break;
+        default:
+          break;
+      }
+
+      if (head[0] < 0 || head[0] >= gridSize || head[1] < 0 || head[1] >= gridSize || snake.some(segment => segment[0] === head[0] && segment[1] === head[1])) {
+        setGameOver(true);
+        return;
+      }
+
+      let newSnake = [head, ...snake];
+      if (head[0] === food[0] && head[1] === food[1]) {
+        setFood(getRandomPosition());
+        setScore(score + 1);
+        setSpeed(Math.max(50, speed - 5));
+        const factIndex = Math.floor(Math.random() * webDevFacts.length);
+        setInformation(webDevFacts[factIndex]);
+
+      } else {
+        newSnake.pop();
+      }
+
+      setSnake(newSnake);
+    };
+
+    if (!gameOver) {
+      const intervalId = setInterval(moveSnake, speed);
+      return () => clearInterval(intervalId);
+    }
+  }, [snake, food, direction, gridSize, speed, gameOver, score]);
+
+  const resetGame = () => {
+    setSnake([[0, 0]]);
+    setFood([5, 5]);
+    setDirection('RIGHT');
+    setSpeed(200);
+    setGameOver(false);
+    setScore(0);
+    setInformation("Welcome to SPRD WebDev Snake!");
+  };
+
+  return (
+    <section className="bg-gray-900 text-white py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center mb-6">
+          <img
+            src="https://uaooyubxkdahisvpkbzh.supabase.co/storage/v1/object/public/assets/1842e43c-3d55-45a2-977f-48b8dcab17fe/image/1751656834714_SPRD-logo.png"
+            alt="SPRD Logo"
+            className="h-12 w-auto mr-4"
+          />
+          <h2 className="text-3xl font-extrabold text-center text-green-500">WebDev Snake Game</h2>
+        </div>
+        <p className="text-lg text-gray-300 text-center mb-4">Eat the food to learn web development facts!</p>
+
+        <div className="flex flex-col md:flex-row items-center justify-center mb-6">
+          <div className="md:w-1/2">
+            <div
+              ref={gameContainerRef}
+              className="relative w-full h-80 sm:h-96 bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+              style={{ width: `${gridSize * 20}px`, height: `${gridSize * 20}px`, maxWidth: '100%', maxHeight: '600px', margin: '0 auto' }}
+            >
+              {snake.map((segment, index) => (
+                <div
+                  key={index}
+                  className="absolute bg-green-500 transition-all duration-100 ease-linear"
+                  style={{
+                    top: `${segment[1] * 20}px`,
+                    left: `${segment[0] * 20}px`,
+                    width: '20px',
+                    height: '20px',
+                  }}
+                />
+              ))}
+              <div
+                className="absolute bg-white rounded-full"
+                style={{
+                  top: `${food[1] * 20}px`,
+                  left: `${food[0] * 20}px`,
+                  width: '20px',
+                  height: '20px',
+                }}
+              />
+              {gameOver && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-75">
+                  <h3 className="text-2xl font-semibold mb-4">Game Over!</h3>
+                  <p className="text-gray-300 mb-4">Your Score: {score}</p>
+                  <button
+                    onClick={resetGame}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
+                  >
+                    Restart
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="md:w-1/2 mt-4 md:mt-0 md:ml-8">
+            <div className="bg-gray-800 rounded-lg shadow-lg p-4">
+              <h4 className="text-xl font-semibold mb-2">Score: {score}</h4>
+              <p className="text-gray-300">Speed: {200 - speed} </p>
+              <p className="text-green-500 italic">
+                {information}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mt-6">
+          <button
+            onClick={resetGame}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all duration-300"
+          >
+            {gameOver ? 'Restart Game' : 'Reset Game'}
+          </button>
+          <a href="index.html" className="inline-block ml-4 text-green-500 hover:text-green-700 font-medium underline transition-all duration-300">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+                
+                // Main Page Component
+                const Page = () => {
+                    return (
+                        <div className="min-h-screen">
+                            {React.createElement(PageComponent)}
+                        </div>
+                    );
+                };
+                
+                const pageRoot = ReactDOM.createRoot(document.getElementById('page-root'));
+                pageRoot.render(React.createElement(Page));
+                
+                console.log('✅ SPRD - educative-game rendered successfully!');
+            } catch (error) {
+                console.error('❌ Page render error:', error);
+                document.getElementById('error-root').style.display = 'block';
+                document.getElementById('error-root').innerHTML = `
+                    <div style="padding: 20px; color: red; font-family: monospace; background: white; border: 2px solid red; margin: 10px; border-radius: 8px;">
+                        <h3>❌ Page Component Error</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <details style="margin-top: 10px;">
+                            <summary style="cursor: pointer; font-weight: bold;">📋 Show Details</summary>
+                            <pre style="background: #f5f5f5; padding: 10px; margin-top: 5px; border-radius: 4px; overflow: auto; font-size: 12px;">${error.stack || 'No stack trace available'}</pre>
+                        </details>
+                        <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            Reload Page
+                        </button>
+                    </div>
+                `;
+            }
+        }).catch((error) => {
+            console.error('❌ Failed to load libraries:', error);
+            document.getElementById('page-root').innerHTML = `
+                <div style="text-align: center; color: red; padding: 20px;">
+                    <h3>❌ Failed to Load Libraries</h3>
+                    <p>Some required libraries failed to load. This might be due to:</p>
+                    <ul style="text-align: left; display: inline-block; margin: 10px 0;">
+                        <li>Network connectivity issues</li>
+                        <li>CDN availability problems</li>
+                        <li>Browser compatibility issues</li>
+                    </ul>
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+                        Retry Loading
+                    </button>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
